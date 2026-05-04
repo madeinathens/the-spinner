@@ -1,12 +1,12 @@
 # THE SPINNER · 330
 
-> *A book that weaves and unweaves the past — paying and counter-paying into the present, and into tomorrow's page that has not yet opened.*
+> *An Autonomous book that weaves and unweaves the past — paying and counter-paying into the present, and into tomorrow's page that has not yet opened.*
 >
 > **x⁰ = 1**
 
 The interactive frontend for **THE_SPINNER**, an RWA protocol on Base Mainnet that frames consumed events (PCEs — Past Consumed Events) as on-chain assets. Penelope's loom, re-threaded as agentic computation. From Homer to the Sixth Industrial Revolution.
 
-**Live**: https://330.madeinathens.eth.limo
+**Live**: https://pi.madeinathens.eth.limo
 **Author**: [madeinathens.eth](https://madeinathens.eth.limo)
 **Genesis**: 2012 · 1 BTC fused with the physical book of Lil Orbits Mini Donuts, Zosimadon 31, Piraeus
 **License**: MIT
