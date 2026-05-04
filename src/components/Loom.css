@@ -1,0 +1,84 @@
+.loom {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.loom .ring {
+  fill: none;
+  stroke: var(--gold-deep);
+  stroke-width: 1;
+}
+
+.loom .ring.bright {
+  stroke: var(--gold);
+}
+
+.loom .thread {
+  stroke: var(--gold);
+  stroke-width: 0.6;
+  opacity: 0.5;
+}
+
+.loom .thread.bright {
+  stroke: var(--gold-bright);
+  stroke-width: 1.2;
+  opacity: 1;
+}
+
+.loom .fate-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  fill: var(--gold);
+}
+
+.loom .loom-center-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 28px;
+  fill: var(--gold-bright);
+}
+
+.loom .rotate {
+  transform-origin: center;
+  animation: loom-spin 32s linear infinite;
+}
+
+.loom .rotate-reverse {
+  transform-origin: center;
+  animation: loom-spin 48s linear infinite reverse;
+}
+
+.loom .shuttle {
+  transform-origin: 250px 250px;
+  animation: loom-shuttle 6s ease-in-out infinite;
+}
+
+.loom-center {
+  transform-origin: center;
+  animation: loom-breathe 4s ease-in-out infinite;
+}
+
+@keyframes loom-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loom-shuttle {
+  0%, 100% { transform: translateX(-60px); }
+  50% { transform: translateX(60px); }
+}
+
+@keyframes loom-breathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loom .rotate,
+  .loom .rotate-reverse,
+  .loom .shuttle,
+  .loom-center {
+    animation: none !important;
+  }
+}

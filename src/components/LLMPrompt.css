@@ -1,0 +1,123 @@
+.llm-prompt {
+  margin: var(--s8) 0;
+  padding: var(--s6) 0;
+  border-top: 1px solid var(--gold-deep);
+  border-bottom: 1px solid var(--gold-deep);
+  position: relative;
+}
+
+.llm-prompt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, var(--purple-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.llm-head {
+  text-align: center;
+  margin-bottom: var(--s5);
+  position: relative;
+}
+
+.llm-title {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  margin-bottom: var(--s2);
+}
+
+.llm-title::before,
+.llm-title::after {
+  content: '─── ';
+  color: var(--gold-deep);
+  letter-spacing: 0;
+}
+
+.llm-title::after {
+  content: ' ───';
+}
+
+.llm-sub {
+  font-style: italic;
+  color: var(--parchment-dim);
+  font-size: 16px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.llm-body {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.llm-pre {
+  background: var(--void);
+  border: 1px solid var(--gold-deep);
+  padding: var(--s5) var(--s5) var(--s7);
+  overflow-x: auto;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.llm-pre::before {
+  content: '$ cat PCE_SEIZED_DIALOGUE.txt';
+  position: absolute;
+  top: var(--s2);
+  left: var(--s5);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--purple);
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+}
+
+.llm-pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--parchment);
+  white-space: pre;
+  display: block;
+  padding-top: var(--s4);
+}
+
+.llm-copy {
+  position: absolute;
+  bottom: var(--s3);
+  right: var(--s3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: var(--s2) var(--s4);
+  background: var(--gold);
+  color: var(--void);
+  border: 1px solid var(--gold);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.llm-copy:hover {
+  background: var(--gold-bright);
+  box-shadow: 0 0 16px var(--gold-faint);
+}
+
+.llm-copy.copied {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--void);
+  box-shadow: 0 0 16px var(--green-glow);
+}
+
+@media (max-width: 600px) {
+  .llm-pre code { font-size: 10px; }
+  .llm-copy {
+    position: static;
+    display: block;
+    width: 100%;
+    margin-top: var(--s3);
+  }
+}

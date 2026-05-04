@@ -1,0 +1,30 @@
+{
+  "name": "330-spinner",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "THE SPINNER · Penelope's Loom × Agentic Computation · x⁰ = 1",
+  "author": "madeinathens.eth",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy:ipfs": "vite build && echo '→ Upload dist/ to Pinata, then update ENS contenthash'"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.59.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0",
+    "viem": "^2.21.0",
+    "wagmi": "^2.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}

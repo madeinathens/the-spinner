@@ -1,0 +1,179 @@
+.state-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+  margin-bottom: var(--s7);
+}
+
+.state-card {
+  border: 1px solid var(--border);
+  background: var(--ink);
+  padding: var(--s4) var(--s5);
+}
+
+.state-card.active {
+  border-color: var(--gold-deep);
+}
+
+.state-card.frozen {
+  border-color: var(--ruby-deep);
+}
+
+.state-card-label {
+  font-size: 9px;
+  color: var(--parchment-faint);
+  margin-bottom: var(--s3);
+}
+
+.state-card-val {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: var(--s2);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.state-card-val.gold-bright { color: var(--gold-bright); }
+
+.state-card.frozen .state-card-val { color: var(--ruby); }
+
+.state-card-foot {
+  font-size: 9px;
+  color: var(--parchment-faint);
+  letter-spacing: 0.25em;
+}
+
+.state-card-link {
+  font-size: 10px;
+  color: var(--parchment-dim);
+  margin-top: var(--s2);
+  display: inline-block;
+  text-decoration: none;
+}
+
+.state-card-link:hover { color: var(--gold); }
+
+/* Ladder grid: 33 cells */
+.ladder-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 4px;
+  margin-bottom: var(--s6);
+}
+
+.ladder-cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  background: var(--ink);
+  padding: var(--s2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.ladder-cell:hover {
+  border-color: var(--gold);
+  background: var(--membrane);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.ladder-cell.accent {
+  border-color: var(--gold-deep);
+  background: linear-gradient(180deg, rgba(201, 163, 90, 0.06) 0%, transparent 100%);
+}
+
+.ladder-cell.accent:hover {
+  border-color: var(--gold-bright);
+}
+
+.cell-step {
+  font-size: 9px;
+  color: var(--parchment-faint);
+  letter-spacing: 0.2em;
+}
+
+.cell-val {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.ladder-cell.accent .cell-val {
+  color: var(--gold-bright);
+}
+
+.cell-cum {
+  font-size: 8px;
+  color: var(--parchment-faint);
+  letter-spacing: 0.05em;
+}
+
+.sacred-note {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border: 1px dashed var(--gold-deep);
+  background: rgba(201, 163, 90, 0.04);
+  margin-bottom: var(--s6);
+  font-style: italic;
+  color: var(--parchment-dim);
+  font-size: 14px;
+}
+
+.sacred-mark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.math-anchor {
+  text-align: center;
+  padding: var(--s7) 0;
+  border-top: 1px solid var(--gold-deep);
+  border-bottom: 1px solid var(--gold-deep);
+}
+
+.math-eq {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-style: italic;
+  color: var(--gold-bright);
+  line-height: 1;
+  margin-bottom: var(--s4);
+  text-shadow: 0 0 40px var(--gold-faint);
+}
+
+.math-text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--parchment-dim);
+  letter-spacing: 0.05em;
+}
+
+.math-onchain {
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.25em;
+  margin-top: var(--s3);
+}
+
+@media (max-width: 800px) {
+  .state-cards { grid-template-columns: 1fr; }
+  .ladder-grid { grid-template-columns: repeat(6, 1fr); }
+  .math-eq { font-size: 60px; }
+}
+
+@media (max-width: 480px) {
+  .ladder-grid { grid-template-columns: repeat(4, 1fr); }
+  .cell-val { font-size: 16px; }
+}

@@ -1,0 +1,232 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 8, 8, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--s5);
+  align-items: center;
+  padding: var(--s3) var(--s4);
+  min-height: 64px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  text-decoration: none;
+  color: var(--parchment);
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gold);
+  text-shadow: 0 0 16px var(--gold-faint);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--parchment);
+}
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+.nav {
+  display: flex;
+  gap: var(--s5);
+  justify-content: center;
+}
+
+.nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--parchment-dim);
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: var(--parchment);
+}
+
+.nav a.active {
+  color: var(--gold);
+}
+
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--gold-deep);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+}
+
+.lang-toggle button {
+  padding: 6px 12px;
+  color: var(--parchment-dim);
+  transition: all 0.2s;
+}
+
+.lang-toggle button.active {
+  background: var(--gold-deep);
+  color: var(--gold-bright);
+  text-shadow: 0 0 8px var(--gold);
+}
+
+.lang-toggle button:not(.active):hover {
+  color: var(--gold);
+}
+
+.btn-connect,
+.btn-warn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  padding: 8px 16px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.btn-connect:hover {
+  background: var(--gold);
+  color: var(--void);
+  box-shadow: 0 0 16px var(--gold-faint);
+}
+
+.btn-warn {
+  border-color: var(--ruby);
+  color: var(--ruby);
+}
+
+.btn-warn:hover {
+  background: var(--ruby);
+  color: var(--parchment);
+}
+
+.connect-wrap {
+  position: relative;
+}
+
+.connect-wrap:hover .connect-menu {
+  display: flex;
+}
+
+.connect-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--s2);
+  flex-direction: column;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  min-width: 200px;
+  padding: var(--s2);
+  z-index: 100;
+}
+
+.connect-menu button {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  padding: 10px 12px;
+  color: var(--parchment-dim);
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.connect-menu button:hover {
+  background: var(--gold-faint);
+  color: var(--gold);
+}
+
+.connected-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 6px 12px;
+  border: 1px solid var(--green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.connected-pill:hover {
+  border-color: var(--ruby);
+  background: var(--ruby-deep);
+}
+
+.addr-short {
+  color: var(--parchment);
+}
+
+.connector-name {
+  color: var(--parchment-faint);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  border-left: 1px solid var(--border);
+  padding-left: var(--s2);
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    gap: var(--s2);
+  }
+  .brand-text { display: none; }
+  .nav {
+    grid-column: 1 / -1;
+    gap: var(--s3);
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: var(--s2);
+  }
+  .connector-name { display: none; }
+}

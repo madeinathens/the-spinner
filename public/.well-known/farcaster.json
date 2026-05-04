@@ -1,0 +1,25 @@
+{
+  "accountAssociation": {
+    "header": "REPLACE_WITH_BASE64_HEADER_FROM_FARCASTER_MANIFEST_TOOL",
+    "payload": "REPLACE_WITH_BASE64_PAYLOAD_FROM_FARCASTER_MANIFEST_TOOL",
+    "signature": "REPLACE_WITH_BASE64_SIGNATURE_FROM_FARCASTER_MANIFEST_TOOL"
+  },
+  "frame": {
+    "version": "1",
+    "name": "THE SPINNER",
+    "iconUrl": "https://330.madeinathens.eth.limo/images/icon.png",
+    "homeUrl": "https://330.madeinathens.eth.limo",
+    "imageUrl": "https://330.madeinathens.eth.limo/images/embed.png",
+    "buttonTitle": "Open the Loom",
+    "splashImageUrl": "https://330.madeinathens.eth.limo/images/splash.png",
+    "splashBackgroundColor": "#0a0808",
+    "subtitle": "Penelope's Loom · x⁰ = 1",
+    "description": "A book that weaves and unweaves the past — sip a haiku, receive a haiku.",
+    "primaryCategory": "art-creativity",
+    "tags": ["haiku", "rwa", "base", "athens", "loom"],
+    "tagline": "x⁰ = 1",
+    "ogTitle": "THE SPINNER · 330",
+    "ogDescription": "Sip a haiku into the loom. The book replies.",
+    "ogImageUrl": "https://330.madeinathens.eth.limo/images/og.png"
+  }
+}

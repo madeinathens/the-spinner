@@ -1,0 +1,220 @@
+/* ─────────────────────────────────────────────────────────
+ * THE SPINNER · Design Tokens
+ * Penelope's loom: parchment / gold / purple / ruby on void
+ * ───────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces */
+  --void: #0a0808;
+  --ink: #14100c;
+  --membrane: #1a1410;
+  --nucleus: #221a14;
+
+  /* Text */
+  --parchment: #ebe2d3;
+  --parchment-dim: #8a8275;
+  --parchment-faint: #463f35;
+
+  /* Accents */
+  --gold: #c9a35a;
+  --gold-bright: #e8c87f;
+  --gold-deep: #6b4f1f;
+  --gold-faint: rgba(201, 163, 90, 0.18);
+
+  --purple: #8b6db8;
+  --purple-deep: #3d2854;
+  --purple-glow: rgba(139, 109, 184, 0.2);
+
+  --ruby: #8b1a3a;
+  --ruby-deep: #4a0d1f;
+
+  /* States */
+  --green: #5a9d6e;
+  --green-glow: rgba(90, 157, 110, 0.15);
+
+  /* Borders */
+  --border: rgba(201, 163, 90, 0.2);
+  --border-soft: rgba(212, 207, 200, 0.08);
+
+  /* Spacing (8px scale) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 32px;
+  --s6: 48px;
+  --s7: 64px;
+  --s8: 96px;
+
+  /* Type */
+  --font-display: 'GFS Didot', 'Cormorant Garamond', serif;
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--void);
+  color: var(--parchment);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(139, 26, 58, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(139, 109, 184, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201, 163, 90, 0.04) 0%, transparent 70%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--gold-bright);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+::selection {
+  background: var(--gold-faint);
+  color: var(--gold-bright);
+}
+
+/* ─── COMMON CLASSES ─── */
+.frame {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--s4);
+  width: 100%;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.gold {
+  color: var(--gold);
+}
+.gold-bright {
+  color: var(--gold-bright);
+}
+.dim {
+  color: var(--parchment-dim);
+}
+.faint {
+  color: var(--parchment-faint);
+}
+
+.hr {
+  border: 0;
+  height: 1px;
+  background: var(--gold-deep);
+  margin: var(--s5) 0;
+}
+
+/* Animated underline links */
+.link-u {
+  position: relative;
+  color: var(--gold);
+}
+.link-u::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.link-u:hover::after {
+  transform: scaleX(1);
+}
+
+/* Fade reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pulse */
+.pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse 1.8s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}

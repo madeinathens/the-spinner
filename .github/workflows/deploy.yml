@@ -1,0 +1,173 @@
+name: Build & Pin to IPFS
+
+# ─── WHEN DOES THIS RUN ──────────────────────────────────────
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Allow manual run from the Actions tab
+
+# ─── PERMISSIONS ─────────────────────────────────────────────
+# We need to write to the build artifacts and read code.
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  build-and-pin:
+    name: Weave the next page
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Get the source code
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install dependencies (locked from package-lock.json)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build the production bundle to dist/
+      - name: Build production bundle
+        env:
+          VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
+        run: npm run build
+
+      # 5. Verify the build produced something
+      - name: Verify dist/ exists
+        run: |
+          if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+            echo "❌ dist/ is missing or empty"
+            exit 1
+          fi
+          echo "✓ dist/ contains $(find dist -type f | wc -l) files, $(du -sh dist | cut -f1) total"
+
+      # 6. Pin to Pinata IPFS (uses official Pinata API directly — no third-party action)
+      - name: Pin dist/ to Pinata IPFS
+        id: pinata
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: |
+          if [ -z "$PINATA_JWT" ]; then
+            echo "❌ PINATA_JWT secret is not set. Add it in Settings → Secrets → Actions."
+            exit 1
+          fi
+
+          # Build a curl command that uploads the entire dist/ folder
+          # Each file is added to the form with its relative path preserved.
+          # The result is a directory CID accessible at ipfs://<CID>/index.html
+
+          PIN_NAME="330-spinner-${GITHUB_SHA:0:7}-$(date +%Y%m%d-%H%M%S)"
+
+          # Find all files in dist/ and build the curl arguments
+          CURL_ARGS=()
+          while IFS= read -r -d '' file; do
+            # Strip "dist/" prefix so the IPFS folder root contains index.html directly
+            relpath="${file#dist/}"
+            CURL_ARGS+=(-F "file=@${file};filename=330-spinner/${relpath}")
+          done < <(find dist -type f -print0)
+
+          # Pinata metadata (visible in Pinata dashboard)
+          PINATA_META='{"name":"'"${PIN_NAME}"'","keyvalues":{"sha":"'"${GITHUB_SHA}"'","ref":"'"${GITHUB_REF_NAME}"'","run":"'"${GITHUB_RUN_NUMBER}"'"}}'
+
+          CURL_ARGS+=(-F "pinataMetadata=${PINATA_META}")
+          CURL_ARGS+=(-F 'pinataOptions={"cidVersion":1,"wrapWithDirectory":false}')
+
+          echo "📌 Pinning ${#CURL_ARGS[@]} files to Pinata as '${PIN_NAME}'..."
+
+          RESPONSE=$(curl -sS -X POST \
+            -H "Authorization: Bearer ${PINATA_JWT}" \
+            "${CURL_ARGS[@]}" \
+            "https://api.pinata.cloud/pinning/pinFileToIPFS")
+
+          echo "Pinata raw response:"
+          echo "$RESPONSE"
+
+          CID=$(echo "$RESPONSE" | grep -o '"IpfsHash":"[^"]*"' | cut -d'"' -f4)
+
+          if [ -z "$CID" ]; then
+            echo "❌ Failed to extract CID from Pinata response"
+            exit 1
+          fi
+
+          echo ""
+          echo "════════════════════════════════════════════════════════════"
+          echo "✓ PINNED TO IPFS"
+          echo "  CID:        ${CID}"
+          echo "  Pin name:   ${PIN_NAME}"
+          echo "  Gateway:    https://ipfs.io/ipfs/${CID}/"
+          echo "  Pinata:     https://gateway.pinata.cloud/ipfs/${CID}/"
+          echo "  ENS hash:   ipfs://${CID}"
+          echo "════════════════════════════════════════════════════════════"
+          echo ""
+          echo "Next step: paste this contenthash into your ENS subdomain record"
+          echo "  https://app.ens.domains/madeinathens.eth"
+
+          # Expose CID to subsequent steps
+          echo "cid=${CID}" >> "$GITHUB_OUTPUT"
+
+      # 7. Write CID to a downloadable artifact for easy access
+      - name: Save CID as artifact
+        run: |
+          mkdir -p deployment-info
+          {
+            echo "# Deployment ${GITHUB_RUN_NUMBER}"
+            echo ""
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Date: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "- IPFS CID: ${{ steps.pinata.outputs.cid }}"
+            echo ""
+            echo "## Set as ENS contenthash"
+            echo "ipfs://${{ steps.pinata.outputs.cid }}"
+            echo ""
+            echo "## Preview URLs"
+            echo "- https://${{ steps.pinata.outputs.cid }}.ipfs.dweb.link/"
+            echo "- https://ipfs.io/ipfs/${{ steps.pinata.outputs.cid }}/"
+            echo "- https://gateway.pinata.cloud/ipfs/${{ steps.pinata.outputs.cid }}/"
+          } > deployment-info/CID.md
+
+      - name: Upload deployment info
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-${{ github.run_number }}
+          path: deployment-info/
+          retention-days: 90
+
+      # 8. Pretty summary in the GitHub Actions UI
+      - name: Write run summary
+        run: |
+          {
+            echo "# 🧬 The Loom Wove"
+            echo ""
+            echo "x⁰ = 1 · Page ${GITHUB_RUN_NUMBER}"
+            echo ""
+            echo "## IPFS CID"
+            echo ""
+            echo "\`\`\`"
+            echo "${{ steps.pinata.outputs.cid }}"
+            echo "\`\`\`"
+            echo ""
+            echo "## ENS contenthash"
+            echo ""
+            echo "Paste this into your ENS record for \`330.madeinathens.eth\`:"
+            echo ""
+            echo "\`\`\`"
+            echo "ipfs://${{ steps.pinata.outputs.cid }}"
+            echo "\`\`\`"
+            echo ""
+            echo "## Preview"
+            echo ""
+            echo "- [Pinata gateway](https://gateway.pinata.cloud/ipfs/${{ steps.pinata.outputs.cid }}/)"
+            echo "- [dweb.link](https://${{ steps.pinata.outputs.cid }}.ipfs.dweb.link/)"
+            echo "- [ipfs.io](https://ipfs.io/ipfs/${{ steps.pinata.outputs.cid }}/)"
+            echo ""
+            echo "After setting ENS contenthash, the public URL will be:"
+            echo ""
+            echo "**https://330.madeinathens.eth.limo**"
+          } >> "$GITHUB_STEP_SUMMARY"
